@@ -12,7 +12,7 @@
         [TestCase("AA", "CC", "66")]
         [TestCase("FFAA", "CC66", "33CC")]
         // ReSharper disable once InconsistentNaming
-        public void ShouldBeAbleToXORTwoStrings(string a, string b, string result)
+        public void ShouldBeAbleToXORTwoHexStrings(string a, string b, string result)
         {
             Assert.AreEqual(result, Utility.XORHexStrings(a, b));
         }
