@@ -87,14 +87,23 @@
 
         public static string BytesToHex(byte[] input)
         {
-            var tmpString = new StringBuilder();
-
-            foreach (var character in input)
+            var prefix = "";
+            char[] lookup = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+            int i = 0, p = prefix.Length, l = input.Length;
+            char[] c = new char[l * 2 + p];
+            byte d;
+            for (; i < p; ++i) c[i] = prefix[i];
+            i = -1;
+            --l;
+            --p;
+            while (i < l)
             {
-                tmpString.Append($"{character:X}");
+                d = input[++i];
+                c[++p] = lookup[d >> 4];
+                c[++p] = lookup[d & 0xF];
             }
 
-            return tmpString.ToString();
+            return new string(c, 0, c.Length);
         }
 
         // ReSharper disable once InconsistentNaming

@@ -1,6 +1,7 @@
 ﻿namespace Crypto.Tests.Set1
 {
     using NUnit.Framework;
+    using Crypto;
 
     [TestFixture]
     public class Challenge1
@@ -28,6 +29,7 @@
         }
 
         [Category("To Hex")]
+        [TestCase(new byte[] { 0 }, "00")]
         [TestCase(new byte[] { 16 }, "10")]
         [TestCase(new byte[] { 32 }, "20")]
         [TestCase(new byte[] { 33 }, "21")]
@@ -41,6 +43,7 @@
         }
 
         [Category("To Bytes")]
+        [TestCase(new byte[] { 0 }, "00")]
         [TestCase(new byte[] { 16 }, "10")]
         [TestCase(new byte[] { 32 }, "20")]
         [TestCase(new byte[] { 33 }, "21")]
