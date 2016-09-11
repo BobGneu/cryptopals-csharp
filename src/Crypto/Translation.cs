@@ -25,7 +25,7 @@
             return Convert.ToBase64String(bytes);
         }
 
-        #endregion  
+        #endregion
 
         #region To Byte Conversion
 
@@ -87,11 +87,11 @@
 
         public static string BytesToHex(byte[] input)
         {
-            char[] lookup = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+            char[] lookup = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
             int i = -1, walker = -1, length = input.Length;
 
-            char[] result = new char[length * 2];
+            var result = new char[length*2];
 
             --length;
 
@@ -99,8 +99,8 @@
             {
                 var character = input[++i];
 
-                result[++walker] = lookup[character >> 4];
-                result[++walker] = lookup[character & 0xF];
+                result[++walker] = lookup[character >> 4]; // First byte
+                result[++walker] = lookup[character & 0xF]; // Second byte 
             }
 
             return new string(result, 0, result.Length);
