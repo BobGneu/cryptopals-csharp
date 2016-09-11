@@ -7,15 +7,15 @@
     {
         #region To Base64 Encoding
 
-        public static string BytesToBase64(byte[] input)
-        {
-            return Convert.ToBase64String(input);
-        }
-
         // ReSharper disable once InconsistentNaming
         public static string ASCIIToBase64(string input)
         {
             return BytesToBase64(ASCIIToBytes(input));
+        }
+
+        public static string BytesToBase64(byte[] input)
+        {
+            return Convert.ToBase64String(input);
         }
 
         public static string HexToBase64(string input)
