@@ -10,6 +10,7 @@
         [TestCase("0F", "F0", "FF")]
         [TestCase("F0", "AF", "5F")]
         [TestCase("AA", "CC", "66")]
+        [TestCase("FFAA", "CC66", "33CC")]
         // ReSharper disable once InconsistentNaming
         public void ShouldBeAbleToXORTwoStrings(string a, string b, string result)
         {
