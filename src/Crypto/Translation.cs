@@ -22,8 +22,6 @@
         {
             var bytes = HexToBytes(input);
 
-            Console.WriteLine(bytes.ToString());
-
             return Convert.ToBase64String(bytes);
         }
 
@@ -102,26 +100,12 @@
         // ReSharper disable once InconsistentNaming
         public static string ASCIIToHex(string input)
         {
-            var tmpString = new StringBuilder();
-
-            foreach (var character in ASCIIToBytes(input))
-            {
-                tmpString.Append($"{character:X}");
-            }
-
-            return tmpString.ToString();
+            return BytesToHex(ASCIIToBytes(input));
         }
 
         public static string Base64ToHex(string input)
         {
-            var tmpString = new StringBuilder();
-
-            foreach (var character in Base64ToBytes(input))
-            {
-                tmpString.Append($"{character:X}");
-            }
-
-            return tmpString.ToString();
+            return BytesToHex(Base64ToBytes(input));
         }
 
         #endregion
