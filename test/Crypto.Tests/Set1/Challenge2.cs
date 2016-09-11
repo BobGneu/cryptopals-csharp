@@ -10,6 +10,7 @@
         [TestCase("0F", "F0", "FF")]
         [TestCase("F0", "AF", "5F")]
         [TestCase("AA", "CC", "66")]
+        // ReSharper disable once InconsistentNaming
         public void ShouldBeAbleToXORTwoStrings(string a, string b, string result)
         {
             Assert.AreEqual(result, Utility.XORHexStrings(a, b));
@@ -17,6 +18,7 @@
 
         [Category("Goal")]
         [Test]
+        // ReSharper disable once InconsistentNaming
         public void ShouldBeAbleToXORSample()
         {
             var message = "1c0111001f010100061a024b53535009181c";
