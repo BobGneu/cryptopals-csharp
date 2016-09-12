@@ -1,30 +1,29 @@
 ﻿namespace Crypto
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     public class Solver
     {
         public static SolverResult DecryptEnglish(string cipher)
         {
-            byte[] tmp = new byte[1];
+            var tmp = new byte[1];
             var bestSolution = new SolverResult(cipher);
 
             for (int i = byte.MinValue; i <= byte.MaxValue; i++)
             {
-                tmp[0] = (byte)i;
+                tmp[0] = (byte) i;
                 var message = Translation.HexToASCII(Utility.XORHexStrings(cipher, Translation.BytesToHex(tmp)));
                 var score = EnglishScore(message);
 
                 if (score > bestSolution.Score)
                 {
-                    bestSolution.Key = tmp[0];
+                    bestSolution.Key = Convert.ToChar(tmp[0]).ToString();
                     bestSolution.Message = message;
                     bestSolution.Score = score;
                 }
             }
-
-            Console.WriteLine(bestSolution);
 
             return bestSolution;
         }
@@ -59,9 +58,9 @@
 
         public static SolverResult FindBestEnglishMessage(string[] data)
         {
-            SolverResult bestSolution = new SolverResult("", 0, "Unknown Message", 0.0);
+            var bestSolution = new SolverResult("", 0, "Unknown Message", 0.0);
 
-            foreach (string cipher in data)
+            foreach (var cipher in data)
             {
                 var tmpResult = DecryptEnglish(cipher);
 
@@ -72,6 +71,59 @@
             }
 
             return bestSolution;
+        }
+
+        public static int FindOptimalKeyLength(string data)
+        {
+            var optimalLength = 0;
+            var optimalDistance = double.PositiveInfinity;
+
+            var sampleSize = 12;
+
+            for (var prospectiveKeyLength = 1; prospectiveKeyLength < 41; prospectiveKeyLength++)
+            {
+                var sum = 0.0;
+
+                for (var sample = 0; sample < sampleSize; sample++)
+                {
+                    var a = data.Substring(2*sample*prospectiveKeyLength*2, prospectiveKeyLength*2);
+                    var b = data.Substring((2*sample + 1)*prospectiveKeyLength*2, prospectiveKeyLength*2);
+
+                    sum += Utility.HammingDistance(Translation.HexToBytes(a), Translation.HexToBytes(b));
+                }
+
+                sum /= prospectiveKeyLength*sampleSize;
+
+                if (sum >= optimalDistance)
+                {
+                    continue;
+                }
+                optimalDistance = sum;
+                optimalLength = prospectiveKeyLength;
+            }
+
+            return optimalLength;
+        }
+
+        public static SolverResult DecryptMultikeyEnglishMessage(string data)
+        {
+            var result = new SolverResult(data);
+
+            var key = new List<string>();
+
+            var keyLength = FindOptimalKeyLength(data);
+            var entries = Utility.TransposeHexMessage(data, keyLength);
+            
+            foreach (string entry in entries)
+            {
+                var result2 = DecryptEnglish(entry);
+
+                key.Add(result2.Key);
+            }
+
+            result.Key = String.Join("", key.ToArray());
+
+            return result;
         }
     }
 }

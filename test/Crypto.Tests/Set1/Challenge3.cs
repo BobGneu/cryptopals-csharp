@@ -14,20 +14,20 @@
 
             var result = Solver.DecryptEnglish(cipher);
 
-            Assert.AreEqual(Convert.ToByte('X'), result.Key); 
+            Assert.AreEqual("X", result.Key); 
             Assert.AreEqual("Cooking MC's like a pound of bacon", result.Message);
         }
 
-        [TestCase("this is just a test", '$')]
-        [TestCase("abcdefghijklmnopqrstuvwxyz", '$')] // Favors lowercase currently b/c they tend to occur more frequently in english writing.
-        [TestCase("this is just a test", ' ')]
-        public void ShouldBeAbleToDecipherKeyForGivenEnglishString(string message, char key)
+        [TestCase("this is just a test", "$")]
+        [TestCase("abcdefghijklmnopqrstuvwxyz", "$")] // Favors lowercase currently b/c they tend to occur more frequently in english writing.
+        [TestCase("this is just a test", " ")]
+        public void ShouldBeAbleToDecipherKeyForGivenEnglishString(string message, string key)
         {
             var cipher = Utility.XORHexStrings(Translation.ASCIIToHex(message), Translation.ASCIIToHex(key.ToString()));
 
             var result = Solver.DecryptEnglish(cipher);
 
-            Assert.AreEqual(Convert.ToByte(key), result.Key, "Found: " + result.Score + " " + result.Message);
+            Assert.AreEqual(key, result.Key, result.ToString());
             Assert.AreEqual(message, result.Message.ToLower());
         }
     }

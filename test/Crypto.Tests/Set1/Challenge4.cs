@@ -29,7 +29,7 @@
         {
             var result = Solver.FindBestEnglishMessage(data);
 
-            Assert.AreEqual(Convert.ToByte('5'), result.Key, "Found: " + result);
+            Assert.AreEqual("5", result.Key, "Found: " + result);
             Assert.AreEqual("Now that the party is jumping", result.Message.Trim());
         }
     }

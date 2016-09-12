@@ -1,6 +1,5 @@
 ﻿namespace Crypto
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -47,6 +46,30 @@
         public static int HammingDistance(byte[] a, byte[] b)
         {
             return a.Select((t, i) => ByteLookup[(byte) (t ^ b[i])]).Sum();
+        }
+
+        public static string[] TransposeHexMessage(string data, int keyLength)
+        {
+            var result = new string[keyLength];
+            var bytes = Translation.HexToBytes(data);
+            var buckets = new List<byte>[keyLength];
+
+            for (var i = 0; i < keyLength; i++)
+            {
+                buckets[i] = new List<byte>();
+            }
+
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                buckets[i % keyLength].Add(bytes[i]);
+            }
+
+            for (var i = 0; i < keyLength; i++)
+            {
+                result[i] = Translation.BytesToHex(buckets[i].ToArray());
+            }
+                
+            return result;
         }
     }
 }

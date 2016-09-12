@@ -4,7 +4,7 @@
 
     public class SolverResult
     {
-        public byte Key = byte.MaxValue;
+        public string Key = "";
         public string Message;
         public double Score = -1;
 
@@ -18,14 +18,14 @@
         public SolverResult(string cipher, byte key, string message, double score)
         {
             Cipher = cipher;
-            Key = key;
+            Key = Convert.ToChar(key).ToString();
             Message = message;
             Score = score;
         }
 
         public override string ToString()
         {
-            return Convert.ToChar(Key) + " " + Score + " " + Message;
+            return Key + " " + Score + " " + Message;
         }
     }
 }
