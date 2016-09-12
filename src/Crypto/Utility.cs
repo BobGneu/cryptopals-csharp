@@ -9,13 +9,13 @@
         }
 
         // ReSharper disable once InconsistentNaming
-        private static byte[] XORBytes(byte[] message, byte[] mask)
+        public static byte[] XORBytes(byte[] message, byte[] mask)
         {
             var result = new byte[message.Length];
 
             for (var ndx = 0; ndx < message.Length; ndx++)
             {
-                result[ndx] = (byte)(message[ndx] ^ mask[ndx%mask.Length]);
+                result[ndx] = (byte)(message[ndx] ^ mask[ndx % mask.Length]);
             }
 
             return result;
