@@ -1,7 +1,30 @@
 ﻿namespace Crypto
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Utility
     {
+        private static Dictionary<byte, int> ByteLookup;
+        static Utility()
+        {
+            ByteLookup = new Dictionary<byte, int>();
+
+            for (int i = 0; i <= byte.MaxValue; i++)
+            {
+                ByteLookup[(byte)i] =
+                    ((i & 1 << 0) != 0 ? 1 : 0) +
+                    ((i & 1 << 1) != 0 ? 1 : 0) +
+                    ((i & 1 << 2) != 0 ? 1 : 0) +
+                    ((i & 1 << 3) != 0 ? 1 : 0) +
+                    ((i & 1 << 4) != 0 ? 1 : 0) +
+                    ((i & 1 << 5) != 0 ? 1 : 0) +
+                    ((i & 1 << 6) != 0 ? 1 : 0) +
+                    ((i & 1 << 7) != 0 ? 1 : 0);
+            }
+        }
+
         // ReSharper disable once InconsistentNaming
         public static string XORHexStrings(string message, string mask)
         {
@@ -19,6 +42,11 @@
             }
 
             return result;
+        }
+
+        public static int HammingDistance(byte[] a, byte[] b)
+        {
+            return a.Select((t, i) => ByteLookup[(byte) (t ^ b[i])]).Sum();
         }
     }
 }

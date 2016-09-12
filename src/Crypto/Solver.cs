@@ -56,5 +56,22 @@
                 return current;
             });
         }
+
+        public static SolverResult FindBestEnglishMessage(string[] data)
+        {
+            SolverResult bestSolution = new SolverResult("", 0, "Unknown Message", 0.0);
+
+            foreach (string cipher in data)
+            {
+                var tmpResult = DecryptEnglish(cipher);
+
+                if (tmpResult.Score > bestSolution.Score)
+                {
+                    bestSolution = tmpResult;
+                }
+            }
+
+            return bestSolution;
+        }
     }
 }
