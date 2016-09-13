@@ -1,6 +1,5 @@
 ﻿namespace Crypto.Tests.Set1
 {
-    using System;
     using System.IO;
     using System.Reflection;
     using NUnit.Framework;
@@ -16,8 +15,8 @@
                     File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                         "data/cryptoData_6.txt")));
             target =
-                    File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                        "data/cryptoResult_6.txt")).Replace("\r\n", "\n").Trim();
+                File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    "data/cryptoResult_6.txt")).Replace("\r\n", "\n").Trim();
         }
 
         private string data;
@@ -33,20 +32,19 @@
             Assert.AreEqual(distance, Utility.HammingDistance(Translation.ASCIIToBytes(a), Translation.ASCIIToBytes(b)));
         }
 
-        [Test]
-        public void ShouldBeAbleToFindKeySizeForEncryptedFile()
+        [TestCase("abcdef", 2, new[] {"ace", "bdf"})]
+        [TestCase("alphabet soup", 2, new[] {"apae op", "lhbtsu"})]
+        public void ShouldBeAbleToTransposeMessageIntoNBlocks(string message, int length, string[] expected)
         {
-            var keyLen = Solver.FindOptimalKeyLength(data);
+            var result = Utility.TransposeHexMessage(Translation.ASCIIToHex(message), length);
 
-            Assert.AreEqual(29, keyLen);
-        }
+            Assert.AreEqual(expected.Length, result.Length);
+            Assert.AreEqual(length, result.Length);
 
-        [Test]
-        public void ShouldBeAbleToFindKeyForEncryptedFile()
-        {
-            var result = Solver.DecryptMultikeyEnglishMessage(data);
-
-            Assert.AreEqual("Terminator X: Bring the noise", result.Key);
+            for (var i = 0; i < length; i++)
+            {
+                Assert.AreEqual(expected[i], Translation.HexToASCII(result[i]));
+            }
         }
 
         [Test]
@@ -60,24 +58,25 @@
         }
 
         [Test]
+        public void ShouldBeAbleToFindKeyForEncryptedFile()
+        {
+            var result = Solver.DecryptMultikeyEnglishMessage(data);
+
+            Assert.AreEqual("Terminator X: Bring the noise", result.Key);
+        }
+
+        [Test]
+        public void ShouldBeAbleToFindKeySizeForEncryptedFile()
+        {
+            var keyLen = Solver.FindOptimalKeyLength(data);
+
+            Assert.AreEqual(29, keyLen);
+        }
+
+        [Test]
         public void ShouldLoadFile()
         {
             Assert.AreEqual(5752, data.Length);
-        }
-
-        [TestCase("abcdef", 2, new [] {"ace", "bdf"})]
-        [TestCase("alphabet soup", 2, new [] {"apae op", "lhbtsu"})]
-        public void ShouldBeAbleToTransposeMessageIntoNBlocks(string message, int length, string[] expected)
-        {
-            var result = Utility.TransposeHexMessage(Translation.ASCIIToHex(message), length);
-
-            Assert.AreEqual(expected.Length, result.Length);
-            Assert.AreEqual(length, result.Length);
-
-            for (int i = 0; i < length; i++)
-            {
-                Assert.AreEqual(expected[i], Translation.HexToASCII(result[i]));    
-            }
         }
     }
 }
