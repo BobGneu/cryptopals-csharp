@@ -11,17 +11,17 @@
         [SetUp]
         public void SetUp()
         {
-            data =
+            _data =
                 Translation.Base64ToBytes(
                     File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                         "data/cryptoData_7.txt")));
-            target =
+            _target =
                 File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                     "data/cryptoResult_6.txt")).Replace("\r\n", "\n").Trim();
         }
 
-        private byte[] data;
-        private string target;
+        private byte[] _data;
+        private string _target;
 
         [Test]
         public void ShouldBeAbleToDecryptTheFile()
@@ -35,7 +35,7 @@
             string plaintext;
 
             var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-            using (var msDecrypt = new MemoryStream(data))
+            using (var msDecrypt = new MemoryStream(_data))
             {
                 using (var csDecrypt = new CryptoStream(msDecrypt
                     , decryptor, CryptoStreamMode.Read))
@@ -48,13 +48,13 @@
                 }
             }
 
-            Assert.AreEqual(target.Trim(), plaintext.Trim('\u0004').Trim());
+            Assert.AreEqual(_target.Trim(), plaintext.Trim('\u0004').Trim());
         }
 
         [Test]
         public void ShouldBeAbleToLoadFile()
         {
-            Assert.AreEqual(5760, data.Length);
+            Assert.AreEqual(2880, _data.Length);
         }
     }
 }
