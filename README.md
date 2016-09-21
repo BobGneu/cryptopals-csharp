@@ -1,4 +1,4 @@
-# Crypto Solutions - C#
+# Crypto Solutions - C&#x23;
 
 My solutions to the crypto challenges on [cryptoPals](http://cryptopals.com/).
 
