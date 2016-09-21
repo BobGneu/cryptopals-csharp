@@ -4,6 +4,8 @@ My solutions to the crypto challenges on [cryptoPals](http://cryptopals.com/).
 
 All of these solutions are completed using C# and are exectuted in the context of NUnit Test cases for validation and organization. 
 
+If you would like to suggest changes or to discuss my implementation please dont hesitate. 
+
 # Set 1 - Basics
 
 - [x] Challenge 1 - Convert hex to base 64
