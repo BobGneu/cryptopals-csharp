@@ -125,5 +125,36 @@
 
             return result;
         }
+
+        public static SolverResult IsAESEncrypted(string line)
+        {
+            var bytes = Translation.HexToBytes(line);
+            var tmpResult = new SolverResult(line);
+
+            for (int offset = 0; offset < bytes.Length - 16; offset += 16)
+            {
+                var sampleA = bytes.Skip(offset).Take(16).ToArray();
+                for (int walker = offset + 16; walker < bytes.Length; walker += 16)
+                {
+                    var sampleB = bytes.Skip(walker).Take(16).ToArray();
+                    var same = true;
+                    for (var i = 0; i < sampleA.Length; i ++)
+                    {
+                        if (sampleA[i] != sampleB[i])
+                        {
+                            same = false;
+                            break;
+                        }    
+                    }
+
+                    if (same)
+                    {
+                        tmpResult.Score++;
+                    }
+                }
+            }
+
+            return tmpResult;
+        }
     }
 }
