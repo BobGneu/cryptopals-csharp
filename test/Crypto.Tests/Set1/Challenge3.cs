@@ -1,6 +1,5 @@
 ﻿namespace Crypto.Tests.Set1
 {
-    using System;
     using NUnit.Framework;
 
     [TestFixture]
@@ -23,7 +22,7 @@
         [TestCase("this is just a test", " ")]
         public void ShouldBeAbleToDecipherKeyForGivenEnglishString(string message, string key)
         {
-            var cipher = Utility.XORHexStrings(Translation.ASCIIToHex(message), Translation.ASCIIToHex(key.ToString()));
+            var cipher = Crypto.Utility.XORHexStrings(Translation.ASCIIToHex(message), Translation.ASCIIToHex(key.ToString()));
 
             var result = Solver.DecryptEnglish(cipher);
 

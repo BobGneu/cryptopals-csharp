@@ -14,7 +14,7 @@
         // ReSharper disable once InconsistentNaming
         public void ShouldBeAbleToXORTwoHexStrings(string a, string b, string result)
         {
-            Assert.AreEqual(result, Utility.XORHexStrings(a, b));
+            Assert.AreEqual(result, Crypto.Utility.XORHexStrings(a, b));
         }
 
         [Category("Goal")]
@@ -27,7 +27,7 @@
 
             var target = "746865206b696420646f6e277420706c6179";
 
-            Assert.AreEqual(target.ToUpper(), Utility.XORHexStrings(message, mask));
+            Assert.AreEqual(target.ToUpper(), Crypto.Utility.XORHexStrings(message, mask));
         }
     }
 }
