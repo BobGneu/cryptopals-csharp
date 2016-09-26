@@ -10,6 +10,7 @@ namespace Crypto.Tests.Set2
         [TestCase("abcdefghijklmnopqrstuvwxyz", 16, "abcdefghijklmnopqrstuvwxyz\x6\x6\x6\x6\x6\x6")]
         [TestCase("abcdefghijklmnopqrstu", 16, "abcdefghijklmnopqrstu\xB\xB\xB\xB\xB\xB\xB\xB\xB\xB\xB")]
         [TestCase("", 8, "\x8\x8\x8\x8\x8\x8\x8\x8")]
+        [TestCase("YELLOW SUBMARINE", 20, "YELLOW SUBMARINE\x04\x04\x04\x04")]
         public void ShouldPadToAppropriateBlockLength(string message, int length, string expected)
         {
             var paddedString = Utility.AddPKCS_7Padding(message, length);
