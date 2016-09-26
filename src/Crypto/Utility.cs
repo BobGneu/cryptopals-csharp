@@ -5,14 +5,15 @@
 
     public class Utility
     {
-        private static Dictionary<byte, int> ByteLookup;
+        private static readonly Dictionary<byte, int> ByteLookup;
+
         static Utility()
         {
             ByteLookup = new Dictionary<byte, int>();
 
-            for (int i = 0; i <= byte.MaxValue; i++)
+            for (var i = 0; i <= byte.MaxValue; i++)
             {
-                ByteLookup[(byte)i] =
+                ByteLookup[(byte) i] =
                     ((i & 1 << 0) != 0 ? 1 : 0) +
                     ((i & 1 << 1) != 0 ? 1 : 0) +
                     ((i & 1 << 2) != 0 ? 1 : 0) +
@@ -37,7 +38,7 @@
 
             for (var ndx = 0; ndx < message.Length; ndx++)
             {
-                result[ndx] = (byte)(message[ndx] ^ mask[ndx % mask.Length]);
+                result[ndx] = (byte) (message[ndx] ^ mask[ndx%mask.Length]);
             }
 
             return result;
@@ -61,15 +62,35 @@
 
             for (var i = 0; i < bytes.Length; i++)
             {
-                buckets[i % keyLength].Add(bytes[i]);
+                buckets[i%keyLength].Add(bytes[i]);
             }
 
             for (var i = 0; i < keyLength; i++)
             {
                 result[i] = Translation.BytesToHex(buckets[i].ToArray());
             }
-                
+
             return result;
+        }
+
+        public static string AddPKCS_7Padding(string message, int length)
+        {
+            var bytes = Translation.ASCIIToBytes(message);
+            var paddedElementCount = length - bytes.Length%length;
+
+            var paddedMessage = new byte[bytes.Length + paddedElementCount];
+
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                paddedMessage[i] = bytes[i];
+            }
+
+            for (var i = bytes.Length; i < bytes.Length + paddedElementCount; i++)
+            {
+                paddedMessage[i] = (byte) paddedElementCount;
+            }
+
+            return Translation.BytesToASCII(paddedMessage);
         }
     }
 }

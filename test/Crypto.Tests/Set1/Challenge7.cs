@@ -2,6 +2,7 @@
 {
     using System.Security.Cryptography;
     using NUnit.Framework;
+    using Utility;
 
     [TestFixture]
     public class Challenge7
@@ -9,8 +10,8 @@
         [SetUp]
         public void SetUp()
         {
-            _data = Translation.Base64ToBytes(Utility.IO.LoadTestFile("data/cryptoData_7.txt"));
-            _target = Utility.IO.LoadTestFile("data/cryptoResult_6.txt").Replace("\r\n", "\n").Trim();
+            _data = Translation.Base64ToBytes(IO.LoadTestFile("data/cryptoData_7.txt"));
+            _target = IO.LoadTestFile("data/cryptoResult_6.txt").Replace("\r\n", "\n").Trim();
         }
 
         private byte[] _data;

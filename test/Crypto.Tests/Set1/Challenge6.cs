@@ -1,6 +1,8 @@
 ﻿namespace Crypto.Tests.Set1
 {
     using NUnit.Framework;
+    using Utility;
+    using Utility = Crypto.Utility;
 
     [TestFixture]
     public class Challenge6
@@ -8,8 +10,8 @@
         [SetUp]
         public void Setup()
         {
-            _data = Translation.Base64ToHex(Utility.IO.LoadTestFile("data/cryptoData_6.txt"));
-            _target = Utility.IO.LoadTestFile("data/cryptoResult_6.txt").Replace("\r\n", "\n").Trim();
+            _data = Translation.Base64ToHex(IO.LoadTestFile("data/cryptoData_6.txt"));
+            _target = IO.LoadTestFile("data/cryptoResult_6.txt").Replace("\r\n", "\n").Trim();
         }
 
         private string _data;
@@ -22,14 +24,14 @@
         [TestCase("this is a test", "wokka wokka!!!", 37)]
         public void ShouldBeAbleToCalculateHammingDistanceBetweenStrings(string a, string b, int distance)
         {
-            Assert.AreEqual(distance, Crypto.Utility.HammingDistance(Translation.ASCIIToBytes(a), Translation.ASCIIToBytes(b)));
+            Assert.AreEqual(distance, Utility.HammingDistance(Translation.ASCIIToBytes(a), Translation.ASCIIToBytes(b)));
         }
 
         [TestCase("abcdef", 2, new[] {"ace", "bdf"})]
         [TestCase("alphabet soup", 2, new[] {"apae op", "lhbtsu"})]
         public void ShouldBeAbleToTransposeMessageIntoNBlocks(string message, int length, string[] expected)
         {
-            var result = Crypto.Utility.TransposeHexMessage(Translation.ASCIIToHex(message), length);
+            var result = Utility.TransposeHexMessage(Translation.ASCIIToHex(message), length);
 
             Assert.AreEqual(expected.Length, result.Length);
             Assert.AreEqual(length, result.Length);
@@ -45,7 +47,7 @@
         {
             var result = Solver.DecryptMultikeyEnglishMessage(_data);
 
-            var message = Crypto.Utility.XORHexStrings(_data, Translation.ASCIIToHex(result.Key));
+            var message = Utility.XORHexStrings(_data, Translation.ASCIIToHex(result.Key));
 
             Assert.AreEqual(_target, Translation.HexToASCII(message).Trim());
         }

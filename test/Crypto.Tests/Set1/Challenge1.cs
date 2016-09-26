@@ -1,16 +1,15 @@
 ﻿namespace Crypto.Tests.Set1
 {
     using NUnit.Framework;
-    using Crypto;
 
     [TestFixture]
     public class Challenge1
     {
         [Category("To Bytes")]
-        [TestCase(" ", new byte[] { 32 })]
-        [TestCase("!", new byte[] { 33 })]
-        [TestCase("A", new byte[] { 65 })]
-        [TestCase("Man", new byte[] { 77, 97, 110 })]
+        [TestCase(" ", new byte[] {32})]
+        [TestCase("!", new byte[] {33})]
+        [TestCase("A", new byte[] {65})]
+        [TestCase("Man", new byte[] {77, 97, 110})]
         // ReSharper disable once InconsistentNaming
         public void ShouldBeAbleToConvertASCIItoByteArray(string input, byte[] expected)
         {
@@ -18,10 +17,10 @@
         }
 
         [Category("To ASCII")]
-        [TestCase(" ", new byte[] { 32 })]
-        [TestCase("!", new byte[] { 33 })]
-        [TestCase("A", new byte[] { 65 })]
-        [TestCase("Man", new byte[] { 77, 97, 110 })]
+        [TestCase(" ", new byte[] {32})]
+        [TestCase("!", new byte[] {33})]
+        [TestCase("A", new byte[] {65})]
+        [TestCase("Man", new byte[] {77, 97, 110})]
         // ReSharper disable once InconsistentNaming
         public void ShouldBeAbleToConvertByteArrayToASCII(string expected, byte[] input)
         {
@@ -29,44 +28,44 @@
         }
 
         [Category("To Hex")]
-        [TestCase(new byte[] { 0 }, "00")]
-        [TestCase(new byte[] { 16 }, "10")]
-        [TestCase(new byte[] { 32 }, "20")]
-        [TestCase(new byte[] { 33 }, "21")]
-        [TestCase(new byte[] { 65 }, "41")]
-        [TestCase(new byte[] { 128 }, "80")]
-        [TestCase(new byte[] { 255 }, "FF")]
-        [TestCase(new byte[] { 77, 97, 110 }, "4D616E")]
+        [TestCase(new byte[] {0}, "00")]
+        [TestCase(new byte[] {16}, "10")]
+        [TestCase(new byte[] {32}, "20")]
+        [TestCase(new byte[] {33}, "21")]
+        [TestCase(new byte[] {65}, "41")]
+        [TestCase(new byte[] {128}, "80")]
+        [TestCase(new byte[] {255}, "FF")]
+        [TestCase(new byte[] {77, 97, 110}, "4D616E")]
         public void ShouldBeAbleToConvertByteArrayToHexString(byte[] input, string expected)
         {
             Assert.AreEqual(expected, Translation.BytesToHex(input));
         }
 
         [Category("To Bytes")]
-        [TestCase(new byte[] { 0 }, "00")]
-        [TestCase(new byte[] { 16 }, "10")]
-        [TestCase(new byte[] { 32 }, "20")]
-        [TestCase(new byte[] { 33 }, "21")]
-        [TestCase(new byte[] { 65 }, "41")]
-        [TestCase(new byte[] { 128 }, "80")]
-        [TestCase(new byte[] { 255 }, "FF")]
-        [TestCase(new byte[] { 77, 97, 110 }, "4D616E")]
+        [TestCase(new byte[] {0}, "00")]
+        [TestCase(new byte[] {16}, "10")]
+        [TestCase(new byte[] {32}, "20")]
+        [TestCase(new byte[] {33}, "21")]
+        [TestCase(new byte[] {65}, "41")]
+        [TestCase(new byte[] {128}, "80")]
+        [TestCase(new byte[] {255}, "FF")]
+        [TestCase(new byte[] {77, 97, 110}, "4D616E")]
         public void ShouldBeAbleToConvertHexStringToByteArray(byte[] expected, string input)
         {
             Assert.AreEqual(expected, Translation.HexToBytes(input));
         }
 
         [Category("To Base64")]
-        [TestCase(new byte[] { 65 }, "QQ==")]
-        [TestCase(new byte[] { 77, 97, 110 }, "TWFu")]
+        [TestCase(new byte[] {65}, "QQ==")]
+        [TestCase(new byte[] {77, 97, 110}, "TWFu")]
         public void ShouldBeAbleToConvertByteArrayToBase64String(byte[] input, string expected)
         {
             Assert.AreEqual(expected, Translation.BytesToBase64(input));
         }
 
         [Category("To Bytes")]
-        [TestCase(new byte[] { 65 }, "QQ==")]
-        [TestCase(new byte[] { 77, 97, 110 }, "TWFu")]
+        [TestCase(new byte[] {65}, "QQ==")]
+        [TestCase(new byte[] {77, 97, 110}, "TWFu")]
         public void ShouldBeAbleToConvertBase64StringToByteArray(byte[] expected, string input)
         {
             Assert.AreEqual(expected, Translation.Base64ToBytes(input));
@@ -97,7 +96,7 @@
         {
             Assert.AreEqual(expected, Translation.HexToBase64(input));
         }
-        
+
         [Category("To Hex")]
         [TestCase("41", "QQ==")]
         [TestCase("4D616E", "TWFu")]
@@ -141,7 +140,8 @@
         }
 
         [Category("To Hex"), Category("Goal")]
-        [TestCase("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d", "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t")]
+        [TestCase("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d",
+            "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t")]
         public void ShouldBeAbleToChangeEncodingOfSampleProblem(string input, string expected)
         {
             var result = Translation.HexToBase64(input);

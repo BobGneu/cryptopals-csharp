@@ -87,7 +87,7 @@
 
         public static string BytesToHex(byte[] input)
         {
-            char[] lookup = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+            var lookup = "0123456789ABCDEF";
 
             int i = -1, walker = -1, length = input.Length;
 

@@ -1,10 +1,25 @@
 ﻿namespace Crypto.Tests.Set1
 {
     using NUnit.Framework;
+    using Utility = Crypto.Utility;
 
     [TestFixture]
     public class Challenge3
     {
+        [TestCase("this is just a test", "$")]
+        // Favors lowercase currently b/c they tend to occur more frequently in english writing.
+        [TestCase("abcdefghijklmnopqrstuvwxyz", "$")]
+        [TestCase("this is just a test", " ")]
+        public void ShouldBeAbleToDecipherKeyForGivenEnglishString(string message, string key)
+        {
+            var cipher = Utility.XORHexStrings(Translation.ASCIIToHex(message), Translation.ASCIIToHex(key));
+
+            var result = Solver.DecryptEnglish(cipher);
+
+            Assert.AreEqual(key, result.Key, result.ToString());
+            Assert.AreEqual(message, result.Message.ToLower());
+        }
+
         [Category("Goal")]
         [Test]
         public static void ShouldBeAbleToIdentifyMessageAndKey()
@@ -13,21 +28,8 @@
 
             var result = Solver.DecryptEnglish(cipher);
 
-            Assert.AreEqual("X", result.Key); 
+            Assert.AreEqual("X", result.Key);
             Assert.AreEqual("Cooking MC's like a pound of bacon", result.Message);
-        }
-
-        [TestCase("this is just a test", "$")]
-        [TestCase("abcdefghijklmnopqrstuvwxyz", "$")] // Favors lowercase currently b/c they tend to occur more frequently in english writing.
-        [TestCase("this is just a test", " ")]
-        public void ShouldBeAbleToDecipherKeyForGivenEnglishString(string message, string key)
-        {
-            var cipher = Crypto.Utility.XORHexStrings(Translation.ASCIIToHex(message), Translation.ASCIIToHex(key.ToString()));
-
-            var result = Solver.DecryptEnglish(cipher);
-
-            Assert.AreEqual(key, result.Key, result.ToString());
-            Assert.AreEqual(message, result.Message.ToLower());
         }
     }
 }
