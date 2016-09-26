@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Security.Cryptography;
 
     public class Solver
     {
@@ -155,6 +157,33 @@
             }
 
             return tmpResult;
+        }
+
+        public static string DecryptEnglishAES(string key, CipherMode type, byte[] data)
+        {
+            var aes = new AesManaged
+            {
+                Key = Translation.ASCIIToBytes(key),
+                Mode = type
+            };
+
+            string plaintext;
+
+            var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+            using (var msDecrypt = new MemoryStream(data))
+            {
+                using (var csDecrypt = new CryptoStream(msDecrypt
+                    , decryptor, CryptoStreamMode.Read))
+                {
+                    using (var srDecrypt = new StreamReader(
+                        csDecrypt))
+                    {
+                        plaintext = srDecrypt.ReadToEnd();
+                    }
+                }
+            }
+
+            return plaintext.Trim('\u0004').Trim();
         }
     }
 }

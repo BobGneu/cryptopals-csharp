@@ -1,6 +1,5 @@
 ﻿namespace Crypto.Tests.Set1
 {
-    using System.IO;
     using System.Security.Cryptography;
     using NUnit.Framework;
 
@@ -20,29 +19,7 @@
         [Test]
         public void ShouldBeAbleToDecryptTheFile()
         {
-            var aes = new AesManaged
-            {
-                Key = Translation.ASCIIToBytes("YELLOW SUBMARINE"),
-                Mode = CipherMode.ECB
-            };
-
-            string plaintext;
-
-            var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-            using (var msDecrypt = new MemoryStream(_data))
-            {
-                using (var csDecrypt = new CryptoStream(msDecrypt
-                    , decryptor, CryptoStreamMode.Read))
-                {
-                    using (var srDecrypt = new StreamReader(
-                        csDecrypt))
-                    {
-                        plaintext = srDecrypt.ReadToEnd();
-                    }
-                }
-            }
-
-            Assert.AreEqual(_target.Trim(), plaintext.Trim('\u0004').Trim());
+            Assert.AreEqual(_target.Trim(), Solver.DecryptEnglishAES("YELLOW SUBMARINE", CipherMode.ECB, _data));
         }
 
         [Test]
