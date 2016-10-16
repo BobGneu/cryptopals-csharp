@@ -1,4 +1,16 @@
-﻿namespace Crypto.Tests.Set1
+﻿/*
+
+Detect single-character XOR
+
+One of the 60-character strings in this file has been encrypted by single-character XOR.
+
+Find it.
+
+(Your code from #3 should help.)
+ 
+*/
+
+namespace Crypto.Tests.Set1
 {
     using System;
     using NUnit.Framework;
